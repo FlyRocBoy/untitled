@@ -56,6 +56,24 @@ public class FfmpegHelper {
             e.printStackTrace();
         }
     }
+    public static void pcm2mp3(String pcmFile,String mp3File){
+        //ffmpeg -f s16le -ar 16.0k -ac 1 -i test.pcm test03.mp3
+        StringBuffer commond=new StringBuffer();
+        commond.append(BASE_EXE);
+        commond.append(" -f s16le -ar 16.0k -ac 1 -i ");
+        commond.append(pcmFile+" ");
+        commond.append(mp3File);
+        Runtime run= Runtime.getRuntime();
+        Process process=null;
+        try {
+            System.out.println(commond.toString());
+            process=run.exec(commond.toString());
+            outErrorStream(process.getErrorStream());
+            outInputStream(process.getInputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     private static void outInputStream(InputStream inputStream){
         String line = null;
         StringBuilder sb = new StringBuilder();
