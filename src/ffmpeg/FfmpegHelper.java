@@ -72,6 +72,8 @@ public class FfmpegHelper {
             outInputStream(process.getInputStream());
         } catch (IOException e) {
             e.printStackTrace();
+        }finally {
+            process.destroy();
         }
     }
     private static void outInputStream(InputStream inputStream){
@@ -80,9 +82,11 @@ public class FfmpegHelper {
         BufferedReader bufferedReader = new BufferedReader
                 (new InputStreamReader(inputStream));
         try {
-            while ((line = bufferedReader.readLine()) != null) {
+            line = bufferedReader.readLine();
+            while (line!= null) {
                 sb.append(line + "\n");
                 System.out.println(line);
+                line = bufferedReader.readLine();
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -116,11 +120,12 @@ class InputStreamRunnable implements Runnable
 
         try
         {
-            while((line=bReader.readLine())!=null)
+            line=bReader.readLine();
+            while(line!=null)
             {
                 lineNum++;
                 System.out.println(line);
-                //Thread.sleep(200);
+                line=bReader.readLine();
             }
             bReader.close();
         }
